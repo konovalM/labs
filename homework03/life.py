@@ -1,8 +1,6 @@
 import pathlib
 import random
-
 from typing import List, Optional, Tuple
-
 
 Cell = Tuple[int, int]
 Cells = List[int]
@@ -10,12 +8,11 @@ Grid = List[Cells]
 
 
 class GameOfLife:
-
     def __init__(
         self,
         size: Tuple[int, int],
-        randomize: bool=True,
-        max_generations: Optional[float] = float('inf')
+        randomize: bool = True,
+        max_generations: Optional[float] = float("inf"),
     ) -> None:
         # Размер клеточного поля
         self.rows, self.cols = size
@@ -42,7 +39,7 @@ class GameOfLife:
         return grid
 
     def get_neighbours(self, cell: Cell) -> Cells:
-        
+
         cells = []
         for i in range(cell[0] - 1, cell[0] + 2):
             if i >= self.rows or i < 0:
@@ -58,13 +55,13 @@ class GameOfLife:
 
     def get_next_generation(self) -> Grid:
         """
-                Получить следующее поколение клеток.
+        Получить следующее поколение клеток.
 
-                Returns
-                ----------
-                out : Grid
-                    Новое поколение клеток.
-                """
+        Returns
+        ----------
+        out : Grid
+            Новое поколение клеток.
+        """
         next_grid = []
         for i in range(self.rows):
             new_line = []
@@ -100,26 +97,26 @@ class GameOfLife:
         """
         Не превысило ли текущее число поколений максимально допустимое.
         """
-        return not(self.n_generation > self.max_generations)
+        return not (self.n_generation > self.max_generations)
 
     @property
     def is_changing(self) -> bool:
         """
         Изменилось ли состояние клеток с предыдущего шага.
         """
-        return not(self.prev_generation == self.curr_generation)
+        return not (self.prev_generation == self.curr_generation)
 
     @staticmethod
-    def from_file(filename: pathlib.Path) -> 'GameOfLife':
+    def from_file(filename: pathlib.Path) -> "GameOfLife":
         """
         Прочитать состояние клеток из указанного файла.
         """
         field = []
-        file = open(filename, 'r')
+        file = open(filename, "r")
         for row in file:
             line = []
             for letter in row:
-                if letter == ('\n'):
+                if letter == ("\n"):
                     continue
                 else:
                     line.append(letter)
@@ -130,8 +127,8 @@ class GameOfLife:
         """
         Сохранить текущее состояние клеток в указанный файл.
         """
-        file = open(filename, 'w')
+        file = open(filename, "w")
         for i in range(self.rows):
             for j in range(self.cols):
                 file.write(str(self.curr_generation[i][j]))
-            file.write(r'\n')
+            file.write(r"\n")
