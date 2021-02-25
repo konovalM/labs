@@ -56,7 +56,6 @@ class GameOfLife:
     def get_next_generation(self) -> Grid:
         """
         Получить следующее поколение клеток.
-
         Returns
         ----------
         out : Grid
@@ -89,7 +88,7 @@ class GameOfLife:
         Выполнить один шаг игры.
         """
         self.prev_generation = self.curr_generation
-        self.curr_generation = self.get_next_generation
+        self.curr_generation = self.get_next_generation()
         self.n_generation += 1
 
     @property
@@ -119,9 +118,13 @@ class GameOfLife:
                 if letter == ("\n"):
                     continue
                 else:
-                    line.append(letter)
+                    line.append(int(letter))
             field.append(line)
-        return field
+        continued_game = GameOfLife((len(field), len(field[0])))
+        continued_game.curr_generation = field
+        #print(field)
+
+        return continued_game
 
     def save(self, filename: pathlib.Path) -> None:
         """
@@ -131,4 +134,13 @@ class GameOfLife:
         for i in range(self.rows):
             for j in range(self.cols):
                 file.write(str(self.curr_generation[i][j]))
-            file.write(r"\n")
+            file.write('\n')
+'''
+life = GameOfLife.from_file('glider.txt')
+print(life.curr_generation)
+for _ in range(4):
+    life.step()
+print(life.curr_generation)
+life.save(pathlib.Path('glider-4-steps.txt'))
+'''
+
