@@ -114,12 +114,15 @@ class GameOfLife:
         file = open(filename, "r")
         for row in file:
             line = []
-            for letter in row:
-                if letter == ("\n"):
-                    continue
-                else:
-                    line.append(int(letter))
-            field.append(line)
+            if row == '\n':
+                break
+            else:
+                for letter in row:
+                    if letter == ("\n"):
+                        continue
+                    else:
+                        line.append(int(letter))
+                field.append(line)
         continued_game = GameOfLife((len(field), len(field[0])))
         continued_game.curr_generation = field
         #print(field)
@@ -135,12 +138,12 @@ class GameOfLife:
             for j in range(self.cols):
                 file.write(str(self.curr_generation[i][j]))
             file.write('\n')
-'''
+
 life = GameOfLife.from_file('glider.txt')
 print(life.curr_generation)
 for _ in range(4):
     life.step()
 print(life.curr_generation)
 life.save(pathlib.Path('glider-4-steps.txt'))
-'''
+
 
