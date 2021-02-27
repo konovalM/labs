@@ -3,6 +3,7 @@ import time
 
 from life import GameOfLife
 from ui import UI
+import os
 
 
 class Console(UI):
@@ -38,6 +39,17 @@ class Console(UI):
             self.life.step()
             print()
             time.sleep(0.3)
+            #print ("\n" * 100)
+            #screen.clear()
+            #os.system('clear')
+            #os.system('CLS')
+            #os.system('cls' if os.name == 'nt' else 'clear')
+            '''Оптимальная работа программы возможна только в командной строке windows и linux
+            (!!!Не в терминале pycharm или VS Code и т.п!!!)'''
+            if os.name == 'nt':
+                os.system('cls')
+            elif os.name == 'posix':
+                os.system('clear')
         #curses.endwin()
 life = GameOfLife((24, 80), max_generations=10)
 ui = Console(life)
