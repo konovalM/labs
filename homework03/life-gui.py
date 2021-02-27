@@ -47,6 +47,13 @@ class GUI(UI):
                     pygame.draw.rect(self.screen, pygame.Color(255, 255, 255),
                                      (x + 1, y + 1, self.cell_size - 1, self.cell_size - 1))
 
+    def mouse_click(self, xy: (int, int)):
+
+            #self.life.prev_generation = self.life.curr_generation
+            if self.life.curr_generation[xy[1] // self.cell_size][xy[0] // self.cell_size] == 0:
+                self.life.curr_generation[xy[1] // self.cell_size][xy[0] // self.cell_size] = 1
+            else:
+                self.life.curr_generation[xy[1] // self.cell_size][xy[0] // self.cell_size] = 0
 
 
     def run(self) -> None:
@@ -71,6 +78,10 @@ class GUI(UI):
                             pause = True
                         else:
                             pause = False
+                if event.type == pygame.MOUSEBUTTONUP:
+                    self.mouse_click(pygame.mouse.get_pos())
+                    self.draw_grid()
+                    pygame.display.flip()
             if pause:
                 self.draw_lines()
                 self.draw_grid()
