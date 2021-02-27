@@ -58,17 +58,25 @@ class GUI(UI):
         self.screen.fill(pygame.Color('white'))
 
         running = True
-        pause = False
+        pause = True
 
         while running:
+
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
-            self.draw_lines()
-            self.draw_grid()
-            self.life.step()
-            pygame.display.flip()
-            clock.tick(self.speed)
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_SPACE:
+                        if not pause:
+                            pause = True
+                        else:
+                            pause = False
+            if pause:
+                self.draw_lines()
+                self.draw_grid()
+                self.life.step()
+                pygame.display.flip()
+                clock.tick(self.speed)
         pygame.quit()
 life = GameOfLife((40, 40), max_generations=10)
 ui = GUI(life, cell_size=30, speed=10)
