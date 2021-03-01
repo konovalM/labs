@@ -4,6 +4,8 @@ import time
 from life import GameOfLife
 from ui import UI
 import os
+import sys
+import math
 
 
 class Console(UI):
@@ -51,6 +53,30 @@ class Console(UI):
             elif os.name == 'posix':
                 os.system('clear')
         #curses.endwin()
-life = GameOfLife((24, 80), max_generations=10)
-ui = Console(life)
-ui.run()
+
+if len(sys.argv) == 1:
+    life = GameOfLife((24, 80), max_generations=math.inf)
+    ui = Console(life)
+    ui.run()
+rows = 24
+cols = 80
+gen = math.inf
+try:
+    if sys.argv[1] == '--help':
+        print('\n'"Для запуска игры необходимо ввести параметры:", '\n', '--row', '\n', '--cols', '\n', '--max-generations',
+                '\n', 'Для запуска игры с параметрами по умолчанию необходимо прописать', '\n',  '"python life_console.py"')
+    else:
+        if '--rows' in sys.argv:
+            n_rows = sys.argv.index('--rows')
+            rows = int(sys.argv[n_rows+1])
+        if '--cols' in sys.argv:
+            n_cols = sys.argv.index('--cols')
+            cols = int(sys.argv[n_cols+1])
+        if '--max-generations' in sys.argv:
+            n_gen = sys.argv.index('--max-generations')
+            gen = int(sys.argv[n_gen+1])
+        life = GameOfLife((rows, cols), max_generations=gen)
+        ui = Console(life)
+        ui.run()
+except IndexError:
+    pass
