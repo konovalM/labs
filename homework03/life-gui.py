@@ -111,7 +111,7 @@ size = 30
 speed1 = 10
 try:
     if sys.argv[1] == '--help':
-        print('\n'"Для запуска игры необходимо ввести параметры:", '\n', '--row', '\n', '--cols', '\n', '--max-generations',
+        print('\n'"Для запуска игры необходимо ввести параметры:", '\n', '--rows', '\n', '--cols', '\n', '--max-generations',
                 '\n', '--cell-size', '\n', '--speed', '\n', 'Для запуска игры с параметрами по умолчанию необходимо прописать', '\n',  '"python life-gui.py"')
     else:
         if '--rows' in sys.argv:
