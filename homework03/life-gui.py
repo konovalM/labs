@@ -1,9 +1,11 @@
 import pygame
 from pygame.locals import *
-
+from os import environ
 from life import GameOfLife
 from ui import UI
 import random
+import sys
+import math
 
 
 class GUI(UI):
@@ -69,6 +71,12 @@ class GUI(UI):
 
         while running:
 
+            if self.life.n_generation > self.life.max_generations:
+                running = False
+
+
+
+
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
@@ -89,8 +97,47 @@ class GUI(UI):
                 pygame.display.flip()
                 clock.tick(self.speed)
         pygame.quit()
-life = GameOfLife((40, 40), max_generations=10)
-ui = GUI(life, cell_size=30, speed=10)
-ui.run()
+
+
+
+if len(sys.argv) == 1:
+    life = GameOfLife((40, 40), max_generations=math.inf)
+    ui = GUI(life, cell_size=30, speed=10)
+    ui.run()
+rows = 40
+cols = 40
+gen = math.inf
+size = 30
+speed1 = 10
+try:
+    if sys.argv[1] == '--help':
+        print('\n'"Для запуска игры необходимо ввести параметры:", '\n', '--row', '\n', '--cols', '\n', '--max-generations',
+                '\n', '--cell-size', '\n', '--speed', '\n', 'Для запуска игры с параметрами по умолчанию необходимо прописать', '\n',  '"python life-gui.py"')
+    else:
+        if '--rows' in sys.argv:
+            n_rows = sys.argv.index('--rows')
+            rows = int(sys.argv[n_rows+1])
+        if '--cols' in sys.argv:
+            n_cols = sys.argv.index('--cols')
+            cols = int(sys.argv[n_cols+1])
+        if '--max-generations' in sys.argv:
+            n_gen = sys.argv.index('--max-generations')
+            gen = int(sys.argv[n_gen+1])
+        if '--cell-size' in sys.argv:
+            n_size = sys.argv.index('--cell-size')
+            size = int(sys.argv[n_size+1])
+        if '--speed' in sys.argv:
+            n_speed = sys.argv.index('--speed')
+            speed1 = int(sys.argv[n_speed+1])
+        life = GameOfLife((rows, cols), max_generations=gen)
+        ui = GUI(life, cell_size=size, speed=speed1)
+        ui.run()
+except IndexError:
+    pass
+
+'''
+--rows 10 --cols 10 --max-generations 50
+--width 640 --height 480 --cell-size 10
+'''
 
 
